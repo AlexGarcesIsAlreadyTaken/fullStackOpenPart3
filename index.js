@@ -63,6 +63,17 @@ app.post('/api/notes', (req, res) => {
   
 })
 
+app.put('/api/notes/:id', (req, res) => {
+  const id = Number(req.params.id)
+  if (!notes.find(note => note.id === id)) {
+    res.statusMessage = `not exist note with id: ${id}`
+    res.send(notes.find())
+    return
+  }
+  notes = notes.map(note => (note.id !== id) ? note : req.body)
+  res.send(notes.find(note => note.id === id))
+})
+
 const unknownEndpoint = (request, response) => {
   response.status(404).send({error: 'unknown endpoint'})
 }
